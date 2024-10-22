@@ -6,7 +6,8 @@ class Path:
     home: str = "/"
     login: str = "/login"
     offers: str = "/offers"
-    # offers: str = "/offers"
+    offers_export_xlsx: str = "/offers/export-xlsx"
+    column_filters_fields: str = "/column-filters-fields"
     authorization_code_callback: str = "/authorization-code/callback"
 
 
