@@ -1,0 +1,54 @@
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.bg-light-orange {
+  background-color: rgba(252, 208, 177, 1);
+}
+
+.text-light-orange {
+  color: rgba(252, 208, 177, 1);
+}
+
+.bg-dark-red {
+  background-color: rgba(153, 15, 61, 1);
+}
+
+.text-dark-red {
+  color: rgba(153, 15, 61, 1);
+}
+
+.header-text-border {
+  position: relative;
+  display: inline-block;
+}
+
+.header-text-border::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 45%;
+  border-bottom: 7px solid white; /* Adjust border color and thickness as needed */
+}
+
+.mac-scrollbar::-webkit-scrollbar {
+  width: 12px;
+  height: 10px;
+}
+
+.mac-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mac-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.mac-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+

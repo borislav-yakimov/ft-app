@@ -1,0 +1,131 @@
+<div class="px-4 py-2 bg-white" id="possible-offers-container">
+    <div class="overflow-x-auto mac-scrollbar">
+        <table class="w-full">
+            <thead class="text-sm">
+                <tr class="border-b">
+                    {% for column in possible_offers_columns %}
+                    <th scope="col" class="px-6 py-3 text-left">{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody class="text-sm">
+                <!-- Rows will be populated here by HTMX -->
+                {% for row in prediction_records %}
+                <tr class="border-b">
+                    {% for column in row %}
+                    <td class="px-6 py-4">{{ column }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex justify-space-between px-6 py-4 w-full">
+        <div class="w-full"><span class="text-lg font-bold">{{ request.query_params._dict.get('custom_ml_model', 'Reactive') }} model</span></div>
+
+        <div class="flex justify-end items-center w-full">
+
+            <div class="flex">
+                <div>
+                    <label for="rows-per-page" class="">Rows per page:</label>
+                    <select id="rows-per-page" name="size" hx-get="/offers?{% if q_params %}&{{ q_params }}&{% endif %}" hx-target="#possible-offers-container"
+                        hx-trigger="change" hx-include="#rows-per-page" class="border-0 text-sm"
+                        style="padding-right:25px; padding-left:5px;">
+                        <option value="5" {% if paginate_metadata.size==5 %}selected{% endif %}>5</option>
+                        <option value="10" {% if paginate_metadata.size==10 %}selected{% endif %}>10</option>
+                        <option value="15" {% if paginate_metadata.size==15 %}selected{% endif %}>15</option>
+                    </select>
+                </div>
+                <div class="flex items-center pr-5 pl-3">
+                    <span>{{ metadata.result_pages_repr }}</span>
+                </div>
+                <div class="flex items-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="inline-flex gap-4">
+                            <li class="flex align-center text-center">
+                                <button href="#" {% if paginate_metadata.page < 2 %}disabled{% endif %}
+                                    hx-push-url="true"
+                                    hx-get="/offers?{% if q_params %}&{{ q_params }}&{% endif %}page={{ paginate_metadata.page - 1 }}&size={{ paginate_metadata.size }}"
+                                    hx-target="#possible-offers-container">
+                                    <svg class="w-5 h-5 {% if paginate_metadata.page < 2 %}text-gray-300{% else %}text-gray-800{% endif %}"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m15 19-7-7 7-7" />
+                                    </svg>
+                                </button>
+                            </li>
+                            <li class="flex align-center text-center">
+                                <button
+                                    hx-push-url="true"
+                                    {% if paginate_metadata.page> paginate_metadata.pages - 1 %}disabled{% endif %}
+                                    hx-get="/offers?{% if q_params %}{{ q_params }}&{% endif %}page={{ paginate_metadata.page + 1 }}&size={{ paginate_metadata.size
+                                    }}"
+                                    hx-target="#possible-offers-container" type="button">
+                                    <svg class="w-5 h-5 {% if paginate_metadata.page < paginate_metadata.pages %}text-gray-800{% else %}text-gray-300 disabled{% endif %}"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m9 5 7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="pl-5">
+                <button type="button" id="export-xlsx-button"
+                    class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                    hx-get="/offers/export-xlsx" hx-trigger="click" hx-target="this" hx-swap="none">
+                    Export XLSX
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('export-xlsx-button').addEventListener('click', function () {
+        const button = this;
+        const buttonText = "Exporting...";
+        const originalText = button.innerHTML;
+        button.innerHTML = '<svg aria-hidden="true" role="status" class="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/></svg>' + buttonText;
+        button.disabled = true;
+        fetch('/offers/export-xlsx')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+
+                // Get current date and time
+                const now = new Date();
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+                const year = now.getFullYear();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+
+                // Format date and time as "03_10_2024-11_11_01"
+                const formattedDate = `${day}_${month}_${year}-${hours}_${minutes}_${seconds}`;
+                a.download = `prediction_records_${formattedDate}.xlsx`;
+
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => console.error('Error downloading the XLSX file:', error))
+            .finally(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
+    });
+</script>

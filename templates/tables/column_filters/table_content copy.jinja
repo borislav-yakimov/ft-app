@@ -1,0 +1,12 @@
+
+<div id="">
+  <form id="filter-form" class="flex flex-row flex-wrap gap-x-56 gap-y-5 justify-center" hx-ext="json-enc" hx-post="/column-filters-fields" hx-trigger="submit" hx-target="#filter-form" hx-swap="outerHTML">
+      {% for field in column_filter_fields %}
+          {% include field.template %}
+      {% endfor %}
+      <button type="submit" id="filter-form-btn"
+          class="w-full my-4 px-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-md px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+          Apply filters
+      </button>
+  </form>
+</div>

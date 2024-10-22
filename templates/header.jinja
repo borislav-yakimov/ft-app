@@ -1,0 +1,44 @@
+<header class="flex align-center p-4 bg-gray-800">
+        <a href="/">
+            <img src="static/images/logo.png" class="h-12" alt="Logo" id="logo">
+        </a>
+    </div>
+    <div class="flex items-center pl-8">
+        <h1 class="text-2xl text-light-orange font-semibold header-text-border">Simple GUI</h1>
+    </div>
+    <div class="flex items-center gap-6 ml-auto text-white">
+        <div class="flex flex-col">
+            <span class="text-gray-300 font-bold">{{ request.user.name }}</span>
+            <span class="text-gray-300">{{ request.user.email }}</span>
+        </div>
+        <svg class="w-8 h-8 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+        </svg>
+        <div id="date-container" hx-on="htmx:load">
+        </div>
+    </div>
+</header>
+
+<script>
+    document.addEventListener("htmx:load", function() {
+        const dateContainer = document.getElementById('date-container');
+        
+        // Calculate the current date
+        const date = new Date();
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const year = date.getFullYear();
+        const formattedDate = `${day}.${month}.${year}`;
+        
+        // Calculate the week number
+        const startOfYear = new Date(date.getFullYear(), 0, 1);
+        const pastDaysOfYear = (date - startOfYear) / 86400000;
+        const weekNumber = Math.ceil((pastDaysOfYear + startOfYear.getDay() + 1) / 7);
+        
+        // Insert the date and week number into the container
+        dateContainer.innerHTML = `
+            ${formattedDate}<br>
+            Week ${weekNumber}
+        `;
+    });
+</script>

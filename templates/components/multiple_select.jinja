@@ -1,0 +1,9 @@
+<div class="form-field max-w-sm w-full mac-scrollbar">
+    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select {{ field.name }}</label>
+    <select id="{{ field.name }}" name="{{ field.name }}" multiple
+        class="mac-scrollbar bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        {% for option in field.options %}
+            <option {% if request.query_params._dict.get(field['name'], '').lower() == option.lower() %}selected{% endif %} value="{{ option }}">{{ option }}</option>
+        {% endfor %}
+    </select>
+</div>

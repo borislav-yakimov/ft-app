@@ -1,0 +1,8 @@
+fastapi==0.115.0
+uvicorn==0.30.6
+sqlmodel==0.0.22
+python-decouple==3.8
+fastapi-pagination==0.12.27
+google-cloud-bigquery==3.25.0
+sqlalchemy-bigquery==1.11.0
+Jinja2==3.1.4

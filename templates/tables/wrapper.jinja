@@ -1,0 +1,11 @@
+<script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
+<script src="{{ url_for('static', path='js/htmx_ext/json-enc.js') }}"></script>
+<div class="shadow border-b-4" style="border-bottom: 4px solid rgba(153, 15, 61, 1);">
+    <div class="flex p-4 bg-light-orange text-gray-800 items-end">
+      <h1 class="text-2xl font-bold">{{ title }}</h1>
+      <h2 class="text-lg font-bold ml-2" style="padding-bottom: 0.2px;">{{ subtitle }}</h2>
+    </div>
+    <div class="px-4 py-2 bg-white">
+        {% block content %}{% endblock %}
+    </div>
+</div>

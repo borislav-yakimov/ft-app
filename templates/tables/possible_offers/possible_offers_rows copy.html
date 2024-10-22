@@ -1,0 +1,64 @@
+{% for row in prediction_records %}
+<tr class="border-b">
+    {% for column in row %}
+    <td class="px-6 py-4">{{ column }}</td>
+    {% endfor %}
+</tr>
+{% endfor %}
+<tr>
+    <div class="px-6 py-4">
+        <div class="flex justify-end items-center">
+            <div class="flex">
+                <div>
+                    <label for="rows-per-page" class="">Rows per page:</label>
+                    <select id="rows-per-page" name="size" hx-get="/offers" hx-target="tbody" hx-trigger="change"
+                        hx-vals="size=this.value" class="border-0 text-sm"
+                        style="padding-right:25px; padding-left:5px;">
+                        <option value="5" {% if paginate_metadata.size==5 %}selected{% endif %}>5</option>
+                        <option value="10" {% if paginate_metadata.size==10 %}selected{% endif %}>10</option>
+                        <option value="15" {% if paginate_metadata.size==15 %}selected{% endif %}>15</option>
+                    </select>
+                </div>
+                <div class="flex items-center pr-5 pl-3">
+                    <span>{{ metadata.result_pages_repr }}</span>
+                </div>
+                <div class="flex items-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="inline-flex gap-4">
+                            <li class="flex align-center text-center">
+                                <button href="#" {% if paginate_metadata.page < 2 %}disabled{% endif %}
+                                    hx-get="/offers?page={{ paginate_metadata.page - 1 }}&size={{ paginate_metadata.size }}"
+                                    hx-target="tbody">
+                                    <svg class="w-5 h-5 {% if paginate_metadata.page < 2 %}text-gray-300{% else %}text-gray-800{% endif %}"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m15 19-7-7 7-7" />
+                                    </svg>
+                                </button>
+                            </li>
+                            <li class="flex align-center text-center">
+                                <button {% if paginate_metadata.page> paginate_metadata.pages - 1 %}disabled{% endif %}
+                                    href="#" hx-get="/offers?page={{ paginate_metadata.page + 1 }}&size={{
+                                    paginate_metadata.size }}" hx-target="tbody" type="button">
+                                    <svg class="w-5 h-5 {% if paginate_metadata.page < paginate_metadata.pages %}text-gray-800{% else %}text-gray-300 disabled{% endif %}"
+                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m9 5 7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div>
+                <button type="button"
+                    class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+                    Export XLSX
+                </button>
+            </div>
+        </div>
+    </div>
+</tr>

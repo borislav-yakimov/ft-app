@@ -1,0 +1,21 @@
+<div class="shadow border-b-4" style="border-bottom: 4px solid rgba(153, 15, 61, 1);">
+  <div class="flex p-4 bg-light-orange text-gray-800 items-end">
+    <h1 class="text-2xl font-bold">Allowed offers per customer</h1>
+    <h2 class="text-lg font-bold ml-2" style="padding-bottom: 0.2px;">Please specify applicable offers</h2>
+  </div>
+  <div class="px-4 py-2 bg-white">
+    <table class="w-full text-xl">
+      <thead class="text-sm">
+        <tr class="border-b">
+          <th scope="col" class="px-6 py-3 text-left">Segment</th>
+          <th scope="col" class="px-6 py-3 text-left">Standard Offer 0</th>
+          <th scope="col" class="px-6 py-3 text-left">Standard Offer 1</th>
+          <th scope="col" class="px-6 py-3 text-left">Standard Offer 2</th>
+          <th scope="col" class="px-6 py-3 text-left">Standard Offer 3</th>
+        </tr>
+    </thead>
+      <tbody hx-get="/allowed-offers-rows" hx-trigger="load" hx-target="this" class="text-sm">
+      </tbody>
+    </table>
+  </div>
+</div>
