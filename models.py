@@ -101,7 +101,7 @@ class NboProactivePredictions(SQLModel, table=True):
     b2c_product_currency_bookkeeping: str
     geo_billing_b2c_marketing_region_bookkeeping: str
     rollup_user_position_bookkeeping: str
-    student_flag_bookkeeping: int
+    student_flag_bookkeeping: bool
     run_date: datetime
     nbo1_ml_prediction_dt: datetime
     user_dkey_bookkeeping: int
