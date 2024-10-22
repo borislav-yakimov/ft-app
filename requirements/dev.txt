@@ -6,3 +6,9 @@ fastapi-pagination==0.12.27
 google-cloud-bigquery==3.25.0
 sqlalchemy-bigquery==1.11.0
 Jinja2==3.1.4
+pydantic[email]
+okta-jwt-verifier==0.2.7
+fastapi-login==1.10.2
+pandas==2.2.3
+itsdangerous==2.2.0
+cryptography==43.0.3
